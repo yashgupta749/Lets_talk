@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 
@@ -11,6 +12,8 @@ import cookieParser from "cookie-parser";
 import { app, server } from "./socket/socket.js";
 
 const PORT = process.env.PORT || 5000;
+
+const __dirname = path.resolve();
 
 dotenv.config();
 
@@ -28,6 +31,14 @@ app.use("/api/users", sidebarRoutes);
 // app.get("/", (req, res) => {
 //   res.send("Hello World");
 // });
+
+//this get static file from frontend to cinnect with backend
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+//this will run our frontend as swerver as well
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 
 server.listen(PORT, () => {
   connectToMongoDb();
