@@ -8,8 +8,7 @@ import sidebarRoutes from "./routes/user.routes.js";
 import connectToMongoDb from "./db/connectToMongoDb.js";
 // import protectRoute from "./middleware/protectRoute.js";
 import cookieParser from "cookie-parser";
-
-const app = express();
+import { app, server } from "./socket/socket.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -30,7 +29,7 @@ app.use("/api/users", sidebarRoutes);
 //   res.send("Hello World");
 // });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectToMongoDb();
   console.log(`server is running ${PORT}`);
 });

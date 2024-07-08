@@ -3,10 +3,7 @@ import User from "../models/user.model.js";
 
 const protectRoute = async (req, res, next) => {
   try {
-    console.log("Cookies: ", req.cookies); // Log the cookies
-    console.log(jwt);
     const token = req.cookies.jwt;
-    console.log("Token: ", token); // Log the token
 
     if (!token) {
       return res.status(401).json({
@@ -14,10 +11,8 @@ const protectRoute = async (req, res, next) => {
           "You are not authorized to access this route - no token provided",
       });
     }
-    console.log("JWT TOKEN", process.env.JWT_SECRET);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded: ", decoded); // Log the decoded token
 
     const user = await User.findById(decoded.userId).select("-password");
 
